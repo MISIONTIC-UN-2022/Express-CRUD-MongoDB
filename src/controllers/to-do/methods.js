@@ -41,7 +41,7 @@ export const createTodo = async (newTodo) => {
       createdBy,
       title,
       task,
-      createdAt: new Date().toISOString(),
+      createdAt: new Date(),
       completedAt: null,
     });
   return result;
@@ -66,7 +66,7 @@ export const completeTodo = async (todoId) => {
     .collection('to-do-items')
     .updateOne(
       { _id: queryId },
-      { $set: { isCompleted: true, completedAt: new Date().toISOString() } }
+      { $set: { isCompleted: true, completedAt: new Date() } }
     );
   return result;
 };
