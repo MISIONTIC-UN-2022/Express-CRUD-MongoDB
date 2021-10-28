@@ -42,5 +42,6 @@
     "eslint-plugin-promise": "^5.1.1",
     "nodemon": "^2.0.14",
     "prettier": "^2.4.1"
-  }
+  },
+  "files": []
 }
