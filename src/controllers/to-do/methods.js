@@ -32,13 +32,13 @@ export const getTodoById = async (todoId) => {
 };
 
 export const createTodo = async (newTodo) => {
-  const { user, title, task } = newTodo;
+  const { createdBy, title, task } = newTodo;
   const result = await mongoDBClient
     .db('mision-tic-2022')
     .collection('to-do-items')
     .insertOne({
       isCompleted: false,
-      createdBy: user,
+      createdBy,
       title,
       task,
       createdAt: new Date().toISOString(),
@@ -75,8 +75,8 @@ export const deleteTodo = async (todoId) => {
   const queryId = new ObjectId(todoId);
 
   const result = await mongoDBClient
-    .db('sample_airbnb')
-    .collection('listingsAndReviews')
+    .db('mision-tic-2022')
+    .collection('to-do-items')
     .deleteOne({ _id: queryId });
 
   return result;
