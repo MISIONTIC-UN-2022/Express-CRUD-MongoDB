@@ -19,6 +19,8 @@ const main = async () => {
 
     setUpControllers(app);
 
+    app.use((err, _req, res, _next) => res.status(400).json({ ...err }));
+
     app.listen(PORT, () =>
       console.log(`Sevidor esperando por peticiones en localhost:${PORT}`)
     );

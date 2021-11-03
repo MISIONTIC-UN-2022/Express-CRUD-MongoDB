@@ -1,8 +1,9 @@
-import { mongoDBClient } from './client';
+import { connection } from 'mongoose';
 
-const gracefulShutdown = () => {
+const gracefulShutdown = async () => {
   console.log('Conexión con MongoDB cerrada.');
-  mongoDBClient.close();
+  await connection.close();
+  process.exit(0);
 };
 
 export const setUpMongoDBProcessWatchers = () => {

@@ -1,83 +1,40 @@
-import { ObjectId } from 'mongodb';
-import { mongoDBClient } from '../../db/client';
+import { Todo } from '../../models';
 
 export const getAllTodos = async () => {
-  const cursor = await mongoDBClient
-    .db('mision-tic-2022')
-    .collection('to-do-items')
-    .find();
-
-  const todos = await cursor.toArray();
+  const todos = await Todo.find();
   return todos;
 };
 
 export const getAllTodosByState = async (isCompleted) => {
-  const cursor = await mongoDBClient
-    .db('mision-tic-2022')
-    .collection('to-do-items')
-    .find({ isCompleted });
-
-  const todos = await cursor.toArray();
+  const todos = await Todo.find({ isCompleted });
   return todos;
 };
 
 export const getTodoById = async (todoId) => {
-  const queryId = new ObjectId(todoId);
-  const result = await mongoDBClient
-    .db('mision-tic-2022')
-    .collection('to-do-items')
-    .findOne({ _id: queryId });
-
-  return result;
+  const todo = Todo.findById(todoId);
+  return todo;
 };
 
-export const createTodo = async (newTodo) => {
-  const { createdBy, title, task } = newTodo;
-  const result = await mongoDBClient
-    .db('mision-tic-2022')
-    .collection('to-do-items')
-    .insertOne({
-      isCompleted: false,
-      createdBy,
-      title,
-      task,
-      createdAt: new Date(),
-      completedAt: null,
-    });
-  return result;
+export const createTodo = async (payload) => {
+  const newTodo = new Todo(payload);
+  await newTodo.save();
+  return newTodo;
 };
 
 export const updateTodo = async (todoId, updatedTodo) => {
-  const queryId = new ObjectId(todoId);
-  const { title, task } = updatedTodo;
-
-  const result = await mongoDBClient
-    .db('mision-tic-2022')
-    .collection('to-do-items')
-    .updateOne({ _id: queryId }, { $set: { title, task } });
+  const result = await Todo.updateOne({ _id: todoId }, updatedTodo);
   return result;
 };
 
 export const completeTodo = async (todoId) => {
-  const queryId = new ObjectId(todoId);
-
-  const result = await mongoDBClient
-    .db('mision-tic-2022')
-    .collection('to-do-items')
-    .updateOne(
-      { _id: queryId },
-      { $set: { isCompleted: true, completedAt: new Date() } }
-    );
+  const result = await Todo(
+    { _id: todoId },
+    { $set: { isCompleted: true, completedAt: new Date() } }
+  );
   return result;
 };
 
 export const deleteTodo = async (todoId) => {
-  const queryId = new ObjectId(todoId);
-
-  const result = await mongoDBClient
-    .db('mision-tic-2022')
-    .collection('to-do-items')
-    .deleteOne({ _id: queryId });
-
+  const result = await Todo.deleteOne({ _id: todoId });
   return result;
 };
