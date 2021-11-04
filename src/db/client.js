@@ -1,5 +1,3 @@
-import DB_CONFIG from '../config/db.json';
-
 import { connect, connection, mongo } from 'mongoose';
 import { setUpMongoDBProcessWatchers } from './watchers';
 
@@ -11,7 +9,7 @@ const listDatabases = async () => {
 };
 
 export const connectToMongoDB = async () => {
-  const connectionString = DB_CONFIG.CONNECTION_URL;
+  const connectionString = process.env.MONGO_DB_SRV;
 
   try {
     console.log('Conectandose a MongoDB...');

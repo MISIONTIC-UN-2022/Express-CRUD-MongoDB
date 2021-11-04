@@ -105,3 +105,6 @@ dist
 
 # Omit db config file
 src/config/db.json
+
+# omit environment variables file
+.env.*
